@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 $username = $_SESSION['user'];
@@ -62,22 +62,26 @@ $username = $_SESSION['user'];
         }
 
         .menu {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 22px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
         }
 
         .card {
             background: #fff;
-            padding: 28px 20px;
-            border-radius: 20px;
+            padding: 20px 30px;
+            border-radius: 18px;
+            text-decoration: none;   
+            color: #333;            
+            font-weight: 400;
+            min-width: 180px;
             text-align: center;
-            font-size: 16px;
-            color: #4b2e23;
-            cursor: pointer;
-            transition: 0.35s;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            transition: 0.3s;
         }
+
 
         .card:hover {
             background: #8b5e34;
@@ -127,11 +131,12 @@ $username = $_SESSION['user'];
 
     <!-- MENU -->
     <div class="menu">
-        <div class="card">📚 Quản lý sách</div>
-        <div class="card">🧑‍🤝‍🧑 Khách hàng</div>
-        <div class="card">🧾 Đơn hàng</div>
-        <div class="card">📊 Thống kê</div>
+        <a href="books.php" class="card">📚 Quản lý sách</a>
+        <a href="customers.php" class="card">👥 Khách hàng</a>
+        <a href="orders.php" class="card">🧾 Đơn hàng</a>
+        <a href="stats.php" class="card">📊 Thống kê</a>
     </div>
+
 
     <div class="logout">
         <a href="logout.php">Đăng xuất</a>
