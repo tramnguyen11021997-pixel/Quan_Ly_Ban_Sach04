@@ -4,11 +4,18 @@ if (!isset($_SESSION['user'])) {
     header("Location: index.php");
     exit();
 }
+$conn = mysqli_connect("localhost", "root", "", "bookstore");
+mysqli_set_charset($conn, "utf8");
 
-if (!isset($_SESSION['books'])) {
-    $_SESSION['books'] = [];
+$category = $_GET['category'] ?? '';
+
+if ($category) {
+    $sql = "SELECT * FROM books WHERE category = '$category'";
+} else {
+    $sql = "SELECT * FROM books";
 }
-$books = $_SESSION['books'];
+
+$result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -89,23 +96,26 @@ tr:nth-child(even) {
             <th>Giá</th>
             <th>Thao tác</th>
         </tr>
-        <?php if (empty($books)): ?>
-            <tr><td colspan="5">Chưa có sách</td></tr>
-        <?php else: ?>
-            <?php foreach ($books as $b): ?>
-            <tr>
-                <td><?= $b['id'] ?></td>
-                <td><?= htmlspecialchars($b['name']) ?></td>
-                <td><?= htmlspecialchars($b['author']) ?></td>
-                <td><?= number_format($b['price']) ?> đ</td>
-                <td class="actions">
-                    <a class="btn" href="books_edit.php?id=<?= $b['id'] ?>">✏ Sửa</a>
-                    <a class="btn" href="books_delete.php?id=<?= $b['id'] ?>"
-                       onclick="return confirm('Xóa sách này?')">🗑 Xóa</a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
+            <?php if (mysqli_num_rows($result) == 0): ?>
+                <tr>
+                    <td colspan="5">Chưa có sách</td>
+                </tr>
+            <?php else: ?>
+            <?php while ($b = mysqli_fetch_assoc($result)): ?>
+                    <tr>
+                    <td><?= $b['id'] ?></td>
+                    <td><?= htmlspecialchars($b['name']) ?></td>
+                    <td><?= htmlspecialchars($b['author']) ?></td>
+                    <td><?= number_format($b['price']) ?> đ</td>
+                    <td class="actions">    
+                        <a class="btn" href="books_edit.php?id=<?= $b['id'] ?>">✏ Sửa</a>
+                        <a class="btn" href="books_delete.php?id=<?= $b['id'] ?>"
+                            onclick="return confirm('Xóa sách này?')">🗑 Xóa</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
         <?php endif; ?>
+
     </table>
 </div>
 

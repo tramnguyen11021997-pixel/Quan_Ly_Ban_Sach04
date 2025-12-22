@@ -123,12 +123,16 @@ $username = $_SESSION['user'] ?? null;
 </section>
 
 <section class="categories">
-    <div class="category">📖 Văn học</div>
-    <div class="category">🧒 Thiếu nhi</div>
-    <div class="category">📚 Giáo khoa</div>
-    <div class="category">🧠 Kỹ năng sống</div>
-    <div class="category">🌍 Ngoại ngữ</div>
-    <div class="category">💼 Kinh tế</div>
+    <a class="category" href="books.php?category=vanhoc">📖 Văn học</a>
+    <a class="category" href="books.php?category=thieunhi">🧒 Thiếu nhi</a>
+    <a class="category" href="books.php?category=giaokhoa">📚 Giáo khoa</a>
+    <a class="category" href="books.php?category=kynang">🌱 Kỹ năng sống</a>
+    <a class="category" href="books.php?category=ngoaingu">🌍 Ngoại ngữ</a>
+    <a class="category" href="books.php?category=kinhte">💼 Kinh tế</a>
+    <a class="category" href="books.php?category=tamly">🧠 Tâm lý</a>
+    <a class="category" href="books.php?category=congnghe">💻 Công nghệ – Tin học</a>
+
+
 </section>
 
 <footer>
