@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
+    header("Location: login.php");
     exit();
 }
 $username = $_SESSION['user'];
@@ -104,8 +104,26 @@ $username = $_SESSION['user'];
             transition: 0.3s;
         }
 
-        .logout a:hover {
+        .logout {
+            display: flex;         /* Sử dụng flexbox để nằm ngang */
+            justify-content: flex-end; /* Đẩy cả 2 nút về bên phải */
+            gap: 15px;            /* Khoảng cách giữa 2 nút */
+            margin-top: 35px;
+        }
+
+        .btn-home {
+            background: #8b5e34;  /* Màu nâu sáng hơn */
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
             background: #4b2e23;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 900px) {
@@ -128,7 +146,7 @@ $username = $_SESSION['user'];
         🎉 Đăng nhập thành công! <br>
         Xin chào <b><?php echo htmlspecialchars($username); ?></b> – chúc bạn làm việc hiệu quả 📚
     </div>
-
+        
     <!-- MENU -->
     <div class="menu">
         <a href="books.php" class="card">📚 Quản lý sách</a>
@@ -139,6 +157,7 @@ $username = $_SESSION['user'];
 
 
     <div class="logout">
+        <a href="index.php" class="btn-home">⬅</a>
         <a href="logout.php">Đăng xuất</a>
     </div>
 
