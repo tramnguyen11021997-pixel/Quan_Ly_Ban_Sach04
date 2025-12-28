@@ -44,17 +44,122 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body{font-family:'Quicksand',sans-serif;background:#f4ece1;padding:30px;}
-.form-box{max-width:450px;margin:auto;background:#fffcf5;padding:40px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
-h2{text-align:center;font-family:'Cinzel Decorative',cursive;color:#3d2b1f;margin-bottom:25px;}
-label{display:block;margin:10px 0 5px;font-weight:700;}
-input, select{width:100%;padding:12px;margin-bottom:15px;border-radius:10px;border:1px solid #ccc;font-size:14px;}
-button{width:100%;padding:12px;background:#3d2b1f;color:white;border:none;border-radius:30px;cursor:pointer;font-weight:700;transition:0.3s;}
-button:hover{background:#c5a059;}
-.error-msg{background:#fbeaea;color:#a94442;padding:10px;border-radius:10px;margin-bottom:15px;text-align:center;}
-.back-link{display:inline-block;margin-top:15px;color:#3d2b1f;text-decoration:none;font-weight:700;}
-.back-link:hover{color:#c5a059;}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:'Quicksand',sans-serif;
+    background:linear-gradient(135deg,#f4ece1,#e9ddcf);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.form-box{
+    width:100%;
+    max-width:480px;
+    background:#ffffff;
+    padding:35px 40px;
+    border-radius:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.15);
+    animation:fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(15px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h2{
+    text-align:center;
+    font-family:'Cinzel Decorative',cursive;
+    color:#3d2b1f;
+    margin-bottom:25px;
+    letter-spacing:1px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:700;
+    color:#4a3423;
+}
+
+input{
+    width:100%;
+    padding:12px 14px;
+    margin-bottom:18px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:14px;
+    transition:0.25s;
+}
+
+input:focus{
+    outline:none;
+    border-color:#c5a059;
+    box-shadow:0 0 0 2px rgba(197,160,89,0.25);
+}
+
+button{
+    width:100%;
+    padding:13px;
+    background:#3d2b1f;
+    color:#fff;
+    border:none;
+    border-radius:30px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button i{
+    margin-right:6px;
+}
+
+button:hover{
+    background:#c5a059;
+    transform:translateY(-1px);
+}
+
+.error-msg{
+    background:#fdecec;
+    color:#a94442;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:18px;
+    text-align:center;
+    font-weight:600;
+    border:1px solid #f5c2c2;
+}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 203fc87 (Add orders management with best seller and stock display)
+.back-link{
+    display:block;
+    margin-top:18px;
+    text-align:center;
+    color:#3d2b1f;
+    font-weight:700;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.back-link i{
+    margin-right:5px;
+}
+
+.back-link:hover{
+    color:#c5a059;
+}
 </style>
+
 </head>
 <body>
 <div class="form-box">
