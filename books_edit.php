@@ -1,146 +1,84 @@
 <?php
 session_start();
+include 'includes/db.php';
 
-if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
+if(!isset($_SESSION['user'])){
+    header("Location: login.php");
     exit();
 }
 
-if (!isset($_GET['id'])) {
-    header("Location: books.php");
-    exit();
-}
+$id = $_GET['id'] ?? '';
+if(!$id){ header("Location: books.php"); exit(); }
 
-$id = $_GET['id'];
-$books = $_SESSION['books'];
+$error = '';
+$stmt = $conn->prepare("SELECT * FROM books_temp WHERE id=?");
+$stmt->bind_param("i",$id);
+$stmt->execute();
+$result = $stmt->get_result();
+$book = $result->fetch_assoc();
+if(!$book){ header("Location: books.php"); exit(); }
 
-$book = null;
-$pos = null;
+if($_SERVER['REQUEST_METHOD']==='POST'){
+    $name = $_POST['name'];
+    $author = $_POST['author'];
+    $price = $_POST['price'];
+    $category = $_POST['category'];
 
-foreach ($books as $index => $b) {
-    if ($b['id'] == $id) {
-        $book = $b;
-        $pos = $index;
-        break;
+    $stmt = $conn->prepare("UPDATE books_temp SET name=?, author=?, price=?, category=? WHERE id=?");
+    $stmt->bind_param("ssdsi",$name,$author,$price,$category,$id);
+
+    if($stmt->execute()){
+        header("Location: books.php");
+        exit();
+    }else{
+        $error = "❌ Lỗi: ".$conn->error;
     }
-}
-
-if ($book === null) {
-    header("Location: books.php");
-    exit();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $books[$pos]['name']   = $_POST['name'];
-    $books[$pos]['author'] = $_POST['author'];
-    $books[$pos]['price']  = $_POST['price'];
-
-    $_SESSION['books'] = $books;
-    header("Location: books.php");
-    exit();
 }
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Sửa sách</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chỉnh sửa sách - BookStore</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(120deg, #f3e9dc, #e6d3b3);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.box {
-    background: #fff;
-    width: 420px;
-    padding: 30px 32px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #5a3a1a;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
-}
-
-input {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 16px;
-    font-size: 14px;
-}
-
-input:focus {
-    border-color: #8b5a2b;
-    outline: none;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 25px;
-    background: #8b5a2b;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #6e4524;
-}
-
-.back {
-    display: block;
-    margin-top: 16px;
-    text-align: center;
-    text-decoration: none;
-    color: #8b5a2b;
-    font-size: 14px;
-}
-
-.back:hover {
-    text-decoration: underline;
-}
+body{font-family:'Quicksand',sans-serif;background:#f4ece1;padding:30px;}
+.form-box{max-width:450px;margin:auto;background:#fffcf5;padding:40px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+h2{text-align:center;font-family:'Cinzel Decorative',cursive;color:#3d2b1f;margin-bottom:25px;}
+label{display:block;margin:10px 0 5px;font-weight:700;}
+input, select{width:100%;padding:12px;margin-bottom:15px;border-radius:10px;border:1px solid #ccc;font-size:14px;}
+button{width:100%;padding:12px;background:#3d2b1f;color:white;border:none;border-radius:30px;cursor:pointer;font-weight:700;transition:0.3s;}
+button:hover{background:#c5a059;}
+.error-msg{background:#fbeaea;color:#a94442;padding:10px;border-radius:10px;margin-bottom:15px;text-align:center;}
+.back-link{display:inline-block;margin-top:15px;color:#3d2b1f;text-decoration:none;font-weight:700;}
+.back-link:hover{color:#c5a059;}
 </style>
 </head>
-
 <body>
+<div class="form-box">
+<h2>✏️ CHỈNH SỬA SÁCH</h2>
 
-<div class="box">
-    <h2>✏ Sửa thông tin sách</h2>
+<?php if($error): ?><div class="error-msg"><?= $error ?></div><?php endif; ?>
 
-    <form method="post">
-        <label>Tên sách</label>
-        <input type="text" name="name" value="<?= htmlspecialchars($book['name']) ?>" required>
+<form method="post">
+<label>Tên sách</label>
+<input type="text" name="name" value="<?= htmlspecialchars($book['name']) ?>" required>
 
-        <label>Tác giả</label>
-        <input type="text" name="author" value="<?= htmlspecialchars($book['author']) ?>" required>
+<label>Tác giả</label>
+<input type="text" name="author" value="<?= htmlspecialchars($book['author']) ?>" required>
 
-        <label>Giá</label>
-        <input type="number" name="price" value="<?= $book['price'] ?>" required>
+<label>Giá (VNĐ)</label>
+<input type="number" name="price" value="<?= htmlspecialchars($book['price']) ?>" required>
 
-        <button type="submit">💾 Lưu thay đổi</button>
-    </form>
+<label>Thể loại</label>
+<input type="text" name="category" value="<?= htmlspecialchars($book['category']) ?>" required>
 
-    <a href="books.php" class="back">⬅ Quay lại quản lý sách</a>
+<button type="submit"><i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi</button>
+</form>
+
+<a href="books.php" class="back-link"><i class="fa-solid fa-arrow-left"></i> Quay lại quản lý</a>
 </div>
-
 </body>
 </html>

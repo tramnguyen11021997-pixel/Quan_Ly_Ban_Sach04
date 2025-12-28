@@ -1,26 +1,28 @@
 <?php
 session_start();
+include 'includes/db.php';
 
-if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
+// Kiểm tra quyền truy cập
+if(!isset($_SESSION['user'])){
+    header("Location: login.php");
     exit();
 }
 
-if (!isset($_GET['id'])) {
-    header("Location: books.php");
-    exit();
-}
+// Lấy ID và ép kiểu về số nguyên để an toàn hơn
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$id = $_GET['id'];
-$books = $_SESSION['books'];
-
-foreach ($books as $i => $b) {
-    if ($b['id'] == $id) {
-        unset($books[$i]);
-        break;
+if($id > 0){
+    $stmt = $conn->prepare("DELETE FROM books_temp WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    
+    if($stmt->execute()){
+        // Có thể thêm thông báo thành công vào session nếu muốn
+        $_SESSION['msg'] = "Xóa sách thành công!";
+    } else {
+        $_SESSION['msg'] = "Lỗi: Không thể xóa dữ liệu.";
     }
+    $stmt->close();
 }
 
-$_SESSION['books'] = array_values($books);
 header("Location: books.php");
 exit();

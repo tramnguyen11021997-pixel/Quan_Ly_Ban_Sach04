@@ -1,104 +1,74 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
+include 'includes/db.php'; 
+
+if(!isset($_SESSION['user'])){
+    header("Location: login.php");
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_SESSION['books'])) {
-        $_SESSION['books'] = [];
+$error = '';
+if($_SERVER['REQUEST_METHOD']==='POST'){
+    $name = $_POST['name'];
+    $author = $_POST['author'];
+    $price = $_POST['price'];
+    $category = $_POST['category'];
+
+    $stmt = $conn->prepare("INSERT INTO books_temp (name, author, price, category) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssds", $name, $author, $price, $category);
+
+    if($stmt->execute()){
+        header("Location: books.php");
+        exit();
+    }else{
+        $error = "❌ Lỗi: " . $conn->error;
     }
-
-    $id = count($_SESSION['books']) + 1;
-    $_SESSION['books'][] = [
-        'id' => $id,
-        'name' => $_POST['name'],
-        'author' => $_POST['author'],
-        'price' => $_POST['price']
-    ];
-
-    header("Location: books.php");
-    exit();
 }
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Thêm sách</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thêm sách mới - BookStore</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(120deg,#f3e9dc,#e6d3b3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-.form-box {
-    background: white;
-    padding: 35px;
-    border-radius: 20px;
-    width: 420px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-}
-h2 {
-    text-align: center;
-    color: #5a3825;
-}
-input {
-    width: 100%;
-    padding: 12px;
-    margin-top: 8px;
-    margin-bottom: 18px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-}
-button {
-    width: 100%;
-    padding: 12px;
-    background: #8b5e34;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-}
-button:hover {
-    background: #6e4524;
-}
-.back {
-    text-align: center;
-    margin-top: 15px;
-}
-.back a {
-    color: #8b5e34;
-    text-decoration: none;
-}
+body{font-family:'Quicksand',sans-serif;background:#f4ece1;padding:30px;}
+.form-box{max-width:450px;margin:auto;background:#fffcf5;padding:40px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+h2{text-align:center;font-family:'Cinzel Decorative',cursive;color:#3d2b1f;margin-bottom:25px;}
+label{display:block;margin:10px 0 5px;font-weight:700;}
+input, select{width:100%;padding:12px;margin-bottom:15px;border-radius:10px;border:1px solid #ccc;font-size:14px;}
+button{width:100%;padding:12px;background:#3d2b1f;color:white;border:none;border-radius:30px;cursor:pointer;font-weight:700;transition:0.3s;}
+button:hover{background:#c5a059;}
+.error-msg{background:#fbeaea;color:#a94442;padding:10px;border-radius:10px;margin-bottom:15px;text-align:center;}
+.back-link{display:inline-block;margin-top:15px;color:#3d2b1f;text-decoration:none;font-weight:700;}
+.back-link:hover{color:#c5a059;}
 </style>
 </head>
 <body>
-
 <div class="form-box">
-    <h2>➕ Thêm sách mới</h2>
+<h2>➕ THÊM SÁCH MỚI</h2>
 
-    <form method="post">
-        <label>Tên sách</label>
-        <input type="text" name="name" required>
+<?php if($error): ?><div class="error-msg"><?= $error ?></div><?php endif; ?>
 
-        <label>Tác giả</label>
-        <input type="text" name="author" required>
+<form method="post">
+<label>Tên sách</label>
+<input type="text" name="name" placeholder="Ví dụ: Đắc Nhân Tâm" required>
 
-        <label>Giá</label>
-        <input type="number" name="price" required>
+<label>Tác giả</label>
+<input type="text" name="author" placeholder="Ví dụ: Dale Carnegie" required>
 
-        <button type="submit">💾 Lưu sách</button>
-    </form>
+<label>Giá (VNĐ)</label>
+<input type="number" name="price" placeholder="Nhập giá..." required>
 
-    <div class="back">
-        <a href="books.php">⬅ Quay lại quản lý sách</a>
-    </div>
+<label>Thể loại</label>
+<input type="text" name="category" placeholder="Ví dụ: Văn học" required>
+
+<button type="submit"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+</form>
+
+<a href="books.php" class="back-link"><i class="fa-solid fa-arrow-left"></i> Quay lại quản lý</a>
 </div>
-
 </body>
 </html>
