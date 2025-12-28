@@ -19,7 +19,7 @@ if($id > 0){
         // Có thể thêm thông báo thành công vào session nếu muốn
         $_SESSION['msg'] = "Xóa sách thành công!";
     } else {
-        $_SESSION['msg'] = "Lỗi: Không thể xóa dữ liệu.";
+        $_SESSION['msg'] = "Lỗi: Không thể xóa dữ liệu!";
     }
     $stmt->close();
 }
