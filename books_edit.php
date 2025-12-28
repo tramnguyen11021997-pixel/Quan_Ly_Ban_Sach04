@@ -137,6 +137,10 @@ button:hover{
     font-weight:600;
     border:1px solid #f5c2c2;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 203fc87 (Add orders management with best seller and stock display)
 .back-link{
     display:block;
     margin-top:18px;
