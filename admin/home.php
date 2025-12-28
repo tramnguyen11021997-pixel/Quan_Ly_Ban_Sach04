@@ -43,10 +43,10 @@ $username = $_SESSION['user'];
         }
 
         .main {
-            width: 95%;
-            max-width: 1000px;
+            width: 98%; /* Tăng chiều rộng một chút để đủ 5 ô */
+            max-width: 1100px;
             background: rgba(255,252,245,0.97);
-            padding: 50px;
+            padding: 40px 20px;
             border-radius: 25px;
             box-shadow: 0 20px 50px rgba(0,0,0,.15);
             text-align: center;
@@ -57,28 +57,30 @@ $username = $_SESSION['user'];
             letter-spacing: 4px;
             margin-bottom: 10px;
             color: var(--wood);
+            font-size: clamp(24px, 5vw, 36px);
         }
 
         .welcome {
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 2px;
             background: var(--wood);
             color: var(--cream);
             display: inline-block;
             padding: 6px 16px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .menu {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            /* Sửa từ 4 cột lên 5 cột */
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 15px; /* Giảm gap để tiết kiệm diện tích */
         }
 
         .card {
             background: var(--paper);
-            height: 180px;
-            border-radius: 25px;
+            height: 160px; /* Giảm chiều cao một chút */
+            border-radius: 20px;
             border: 1px solid rgba(0,0,0,.1);
             display: flex;
             flex-direction: column;
@@ -86,19 +88,21 @@ $username = $_SESSION['user'];
             align-items: center;
             text-decoration: none;
             transition: .3s;
+            padding: 10px;
         }
 
         .card i {
-            font-size: 32px;
+            font-size: 28px; /* Giảm size icon */
             color: var(--wood);
             margin-bottom: 10px;
         }
 
         .card span {
             font-weight: 700;
-            font-size: 12px;
-            letter-spacing: 1px;
+            font-size: 10px; /* Giảm size chữ để không bị xuống dòng */
+            letter-spacing: 0.5px;
             color: var(--wood);
+            white-space: nowrap; /* Giữ chữ trên 1 dòng */
         }
 
         .card:hover {
@@ -133,7 +137,11 @@ $username = $_SESSION['user'];
             color: white;
         }
 
-        @media (max-width: 900px) {
+        /* Responsive cho màn hình nhỏ */
+        @media (max-width: 1000px) {
+            .menu { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
             .menu { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
@@ -155,12 +163,17 @@ $username = $_SESSION['user'];
             <span>KHÁCH HÀNG</span>
         </a>
 
+        <a href="staff.php" class="card">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>NHÂN VIÊN</span>
+        </a>
+
         <a href="orders.php" class="card">
             <i class="fa-solid fa-file-invoice"></i>
             <span>ĐƠN HÀNG</span>
         </a>
 
-        <a href="stats.php" class="card">
+        <a href="statistics.php" class="card">
             <i class="fa-solid fa-chart-line"></i>
             <span>THỐNG KÊ</span>
         </a>
