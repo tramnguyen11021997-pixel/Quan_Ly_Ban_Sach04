@@ -47,8 +47,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background-color: #f4ece1; /* Màu nền giấy vintage */
-            background-image: radial-gradient(#d9c5b2 0.5px, transparent 0.5px); /* Hiệu ứng chấm nhẹ cho nền */
+            background-color: #f4ece1;
+            background-image: radial-gradient(#d9c5b2 0.5px, transparent 0.5px); 
             background-size: 20px 20px;
             display: flex;
             justify-content: center;
