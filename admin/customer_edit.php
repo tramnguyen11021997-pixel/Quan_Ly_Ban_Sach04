@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 $message = "";
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// 1. LẤY DỮ LIỆU CŨ CỦA KHÁCH HÀNG
+// 1. Lấy dữ liệu cũ của khách hàng
 $res = mysqli_query($conn, "SELECT * FROM customers WHERE id = $id");
 $row = mysqli_fetch_assoc($res);
 
@@ -18,7 +18,7 @@ if (!$row) {
     die("Khách hàng không tồn tại!");
 }
 
-// 2. XỬ LÝ CẬP NHẬT KHI NHẤN NÚT LƯU
+// 2. Xử lý cập nhật khi nhán nút lưu
 if (isset($_POST['btn_update'])) {
     $name    = mysqli_real_escape_string($conn, $_POST['name']);
     $phone   = mysqli_real_escape_string($conn, $_POST['phone']);
