@@ -19,7 +19,7 @@ Xây dựng một hệ thống giúp chủ cửa hàng dễ dàng quản lý sá
 ## 🗂️ Các chức năng dự kiến 
 1. **Quản lý sách** – Thêm, sửa, xóa, tìm kiếm sách theo mã, tên, thể loại.  
 2. **Quản lý khách hàng** – Lưu thông tin khách hàng, lịch sử mua hàng.  
-3. **Quản lý đơn hàng** – Tạo hóa đơn, cập nhật trạng thái đơn.
+3. **Quản lý đơn sách** – Quản lí số lượng sách đã mua và sách bán chạy.
 4. **Quản lý nhân viên** – Thêm, sửa, xóa và tra cúu thông tin của nhân viên.
 5. **Thống kê doanh thu** – Xem báo cáo doanh thu theo ngày/tháng/năm.  
 6. **Đăng nhập/Phân quyền người dùng** – Nhân viên, quản lý.  
@@ -45,4 +45,5 @@ Xây dựng một hệ thống giúp chủ cửa hàng dễ dàng quản lý sá
 - Tạo Product Backlog trên Issues  
 - Thiết lập Project Board dạng Kanban  
 - Thực hành tạo, push, pull request và merge nhánh cá nhân
+
 
