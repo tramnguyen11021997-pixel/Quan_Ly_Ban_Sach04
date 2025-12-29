@@ -1,6 +1,7 @@
 <?php
 session_start();
 // 1. KẾT NỐI DATABASE
+// Hãy đảm bảo file db.php nằm trong thư mục includes (ngang hàng với admin)
 $db_path = '../includes/db.php';
 if (file_exists($db_path)) {
     include $db_path;
