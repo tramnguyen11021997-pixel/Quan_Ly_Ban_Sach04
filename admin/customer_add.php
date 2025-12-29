@@ -1,6 +1,10 @@
 <?php
 session_start();
+<<<<<<< Updated upstream
 // 1. Kết nối DATABASE
+=======
+// 1. KẾT NỐI DATABASE
+>>>>>>> Stashed changes
 $db_path = '../includes/db.php';
 if (file_exists($db_path)) {
     include $db_path;
@@ -18,7 +22,7 @@ $message = "";
 
 // 3. Xử lý khi nhấn nút lưu
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['btn_save'])) {
-    // Lấy dữ liệu và làm sạch để tránh lỗi SQL
+
     $name    = $conn->real_escape_string($_POST['name']);
     $phone   = $conn->real_escape_string($_POST['phone']);
     $email   = $conn->real_escape_string($_POST['email']);
